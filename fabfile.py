@@ -9,7 +9,7 @@ env.repository = 'git@github.com:brunotikami/pylpi'
 env.project_name = 'pylpi'
 env.user = 'deployer'
 env.user_home = '/home/%s' %env.user
-env.project_path = '/%s' %env.project_name
+env.project_path = '%s/%s' %(env.user_home, env.project_name)
 env.supervisor_program = env.project_name
 env.forward_agent = True
 env.venv_path = '%s/.venv' % env.project_path
@@ -100,7 +100,7 @@ def deploy(commit='master', force=False):
 def setup_config_files():
 
     # nginx
-    sudo("cp %s/config/nginx/*.conf /etc/nginx/conf.d/" %env.project_path)
+    sudo("cp %s/config/nginx/* /etc/nginx/conf.d/" %env.project_path)
     # supervisor 
     sudo("cp %s/config/supervisor/supervisord.conf /etc/supervisord.conf" %env.project_path)
     # cron
