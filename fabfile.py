@@ -80,6 +80,8 @@ def deploy(commit='master', force=False):
         # checkout to the selected commit/tag/branch
         run('git checkout %s' % commit)
 
+        run('git merge origin/%s' % commit)
+
         # create virtualenv if needed
         if not exists(env.venv_path):
             python = '/usr/bin/python'
@@ -112,7 +114,8 @@ def start():
     with settings(warn_only=True):
         sudo('pip install supervisor')
 
-    sudo("supervisord")
+    sudo('supervisord')
+    sudo('supervisorctl update')
 
     # pep381run
     sudo("supervisorctl start %s" %env.supervisor_program)
