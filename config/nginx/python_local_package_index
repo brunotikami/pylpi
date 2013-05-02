@@ -1,0 +1,13 @@
+server {
+    listen 10.1.2.3:80;
+    server_name pypi.domain.local;
+    access_log /var/log/nginx/pypi.domain.local.access.log;
+    location / {
+        root /var/local/pypi_mirror/data/web;
+        autoindex on;
+
+        allow 10.1.2.0/24;
+        allow 127.0.0.1;
+        deny all;
+    }
+}
