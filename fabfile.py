@@ -8,7 +8,7 @@ from fabric.decorators import runs_once
 env.repository = 'git@github.com:brunotikami/pylpi'
 env.project_name = 'pylpi'
 env.user = 'deployer'
-env.project_dir = '/home/deployer'
+env.user_home = '/home/%s' %env.user
 env.project_path = '/%s' %env.project_name
 env.supervisor_program = env.project_name
 env.forward_agent = True
