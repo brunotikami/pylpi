@@ -19,10 +19,8 @@ def production():
     
     env.name = 'production'
     env.hosts = [
-        #'pypi.essential.aws1a.titansgroup.net',
         '10.0.254.17',
     ]
-    env.gateway = 'deployer@ec2-54-232-196-115.sa-east-1.compute.amazonaws.com'
 
 def install_server_os_packages():
     """
