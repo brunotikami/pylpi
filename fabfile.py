@@ -13,7 +13,7 @@ env.project_path = '%s/%s' %(env.user_home, env.project_name)
 env.supervisor_program = env.project_name
 env.forward_agent = True
 env.venv_path = '%s/.venv' % env.project_path
-env.packages_storage_path = '/packages'
+env.packages_storage_path = '/packages/pypi'
 
 def production():
     
@@ -105,7 +105,7 @@ def setup_config_files():
     # supervisor 
     sudo("cp %s/config/supervisor/supervisord.conf /etc/supervisord.conf" %env.project_path)
     # cron
-    sudo("cp %s/config/cron.d/* /etc/cron.d/" %env.project_path)
+    #sudo("cp %s/config/cron.d/* /etc/cron.d/" %env.project_path)
 
 def start():
 
