@@ -7,11 +7,13 @@ from fabric.decorators import runs_once
 
 env.repository = 'git@github.com:brunotikami/pylpi'
 env.project_name = 'pylpi'
+env.user = 'deployer'
 env.project_dir = '/home/deployer'
 env.project_path = '/%s' %env.project_name
 env.supervisor_program = env.project_name
 env.forward_agent = True
 env.venv_path = '%s/.venv' % env.project_path
+env.packages_storage_path = '/packages'
 
 def production():
     
@@ -42,10 +44,6 @@ def install_server_os_packages():
 
     # NTP
     sudo('apt-get install ntp -y')
-    setup_nginx()
-
-    # uWSGI
-    sudo('pip install uwsgi==1.4.4')  # install to /usr/local/bin/uwsgi
 
     # NTP
     sudo('apt-get install ntp -y')
@@ -91,9 +89,10 @@ def deploy(commit='master', force=False):
             # install requirements
             run('pip install -r requirements.txt')
 
-        packages_storage_path = '%s/data'% env.src_path
-        if not exists(packages_storage_path):
-            run('mkdir -p %s' %packages_storage_path)
+        packages_storage_link = '%s/data'% env.src_path
+        if not exists(packages_storage_link):
+            sudo('mkdir -p %s' %env.packages_storage_path)
+            run('ln -s %s %s' %(env.packages_storage_path, packages_storage_link))
 
         #run('pep381run %s' %packages_storage_path)
         setup_config_files()
