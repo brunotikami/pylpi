@@ -69,11 +69,11 @@ def deploy(commit='master', force=False):
             run('echo "     StrictHostKeyChecking no" >>%s' % ssh_config)
             run('echo "     UserKnownHostsFile /dev/null" >>%s' % ssh_config)
 
-    # clone the repo into the env.src_path
-    if not exists(env.src_path):
+    # clone the repo into the env.project_path
+    if not exists(env.project_path):
         run('git clone %s' % env.repository)
 
-    with cd(env.src_path):
+    with cd(env.project_path):
         # fetch the changes
         run('git fetch')
 
@@ -89,7 +89,7 @@ def deploy(commit='master', force=False):
             # install requirements
             run('pip install -r requirements.txt')
 
-        packages_storage_link = '%s/data'% env.src_path
+        packages_storage_link = '%s/data'% env.project_path
         if not exists(packages_storage_link):
             sudo('mkdir -p %s' %env.packages_storage_path)
             run('ln -s %s %s' %(env.packages_storage_path, packages_storage_link))
