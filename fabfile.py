@@ -41,9 +41,8 @@ def install_server_os_packages():
     # NGINX - install from official PPA
     sudo('add-apt-repository -y ppa:nginx/stable')
     sudo('apt-get update && apt-get install -y nginx')
-
-    # NTP
-    sudo('apt-get install ntp -y')
+    # Remove the default nginx site config file to avoid binding conflicts
+    sudo('rm /etc/nginx/sites-enabled/default')
 
     # NTP
     sudo('apt-get install ntp -y')
@@ -97,7 +96,6 @@ def deploy(commit='master', force=False):
             sudo('chown -R %s %s' %(env.user, env.packages_storage_path))
             run('ln -s %s %s' %(env.packages_storage_path, packages_storage_link))
 
-        #run('pep381run %s' %packages_storage_path)
         setup_config_files()
 
 def setup_config_files():
@@ -106,8 +104,6 @@ def setup_config_files():
     sudo("cp %s/config/nginx/* /etc/nginx/conf.d/" %env.project_path)
     # supervisor 
     sudo("cp %s/config/supervisor/supervisord.conf /etc/supervisord.conf" %env.project_path)
-    # cron
-    #sudo("cp %s/config/cron.d/* /etc/cron.d/" %env.project_path)
 
 def start():
 
@@ -123,9 +119,6 @@ def start():
     # nginx
     sudo('service nginx restart', pty=False)
 
-    # cron
-    sudo('service cron restart', pty=False)
-
 def stop():
 
     with settings(warn_only=True):
@@ -135,5 +128,7 @@ def stop():
         # nginx
         sudo('service nginx stop', pty=False)
 
-        # cron
-        sudo('service cron stop', pty=False)
+def restart():
+   
+    stop()
+    start()
