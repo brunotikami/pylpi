@@ -92,7 +92,7 @@ def deploy(commit='master', force=False):
         packages_storage_link = '%s/data'% env.project_path
         if not exists(packages_storage_link):
             sudo('mkdir -p %s' %env.packages_storage_path)
-            sudo('chown -R %s %s' %(env.user_home, env.packages_storage_path))
+            sudo('chown -R %s %s' %(env.user, env.packages_storage_path))
             run('ln -s %s %s' %(env.packages_storage_path, packages_storage_link))
 
         #run('pep381run %s' %packages_storage_path)
