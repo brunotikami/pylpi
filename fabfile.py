@@ -114,7 +114,7 @@ def start():
     with settings(warn_only=True):
         sudo('pip install supervisor')
 
-    sudo('supervisord')
+        sudo('supervisord')
     sudo('supervisorctl update')
 
     # pep381run
