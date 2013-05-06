@@ -1,2 +1,2 @@
 pep381client==1.5
-chishop -e giti+git://github.com/ask/chishop.git#egg=chishop
+-e giti+git://github.com/ask/chishop.git#egg=chishop
